@@ -13,9 +13,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user from supabase auth
+    // Get user from supabase auth using server-side client
     const supabase = createClient();
-    const { data: userData } = await supabase.auth.getUser();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+    const userData = session ? { user: session.user } : { user: null };
 
     if (!userData?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
