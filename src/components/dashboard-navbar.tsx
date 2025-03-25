@@ -37,7 +37,7 @@ export default function DashboardNavbar({
   return (
     <nav className="w-full border-b border-cyan-900/30 bg-gray-900 py-4 font-mono">
       <div className="container mx-auto px-4 flex justify-between items-center">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center">
           <Link
             href="/"
             prefetch
@@ -46,12 +46,12 @@ export default function DashboardNavbar({
             <Terminal className="mr-2 h-6 w-6" />
             <span>Rovyk</span>
           </Link>
+        </div>
+        <div className="flex gap-4 items-center">
           <ModelSelector
             selectedModel={selectedModel}
             onModelChange={handleModelChange}
           />
-        </div>
-        <div className="flex gap-4 items-center">
           <Link
             href="/pricing"
             className="text-sm text-cyan-400 hover:text-cyan-300"

@@ -9,6 +9,65 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          created_at: string | null
+          id: string
+          model: string
+          title: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          model: string
+          title: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          model?: string
+          title?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          id: string
+          role: string
+          timestamp: string | null
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          id?: string
+          role: string
+          timestamp?: string | null
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          id?: string
+          role?: string
+          timestamp?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       subscriptions: {
         Row: {
           amount: number | null
@@ -95,6 +154,41 @@ export type Database = {
           },
         ]
       }
+      token_usage_history: {
+        Row: {
+          created_at: string | null
+          id: string
+          model: string
+          request_type: string
+          tokens_used: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          model: string
+          request_type: string
+          tokens_used: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          model?: string
+          request_type?: string
+          tokens_used?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "token_usage_history_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string | null
@@ -107,6 +201,7 @@ export type Database = {
           name: string | null
           subscription: string | null
           token_identifier: string
+          token_usage: number | null
           updated_at: string | null
           user_id: string | null
         }
@@ -121,6 +216,7 @@ export type Database = {
           name?: string | null
           subscription?: string | null
           token_identifier: string
+          token_usage?: number | null
           updated_at?: string | null
           user_id?: string | null
         }
@@ -135,6 +231,7 @@ export type Database = {
           name?: string | null
           subscription?: string | null
           token_identifier?: string
+          token_usage?: number | null
           updated_at?: string | null
           user_id?: string | null
         }

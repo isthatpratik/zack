@@ -134,12 +134,55 @@ export default async function Home() {
               $ pricing --show
             </h2>
             <p className="text-gray-300 max-w-2xl mx-auto">
-              Choose from three tiers: Free (5,000 tokens), Premium 1 ($8.99),
-              or Premium 2 ($14.99).
+              Choose from three tiers: Free (5,000 tokens), Premium 1 ($8.99 for
+              200K tokens), or Premium 2 ($14.99 for 500K tokens).
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {plans?.map((item: any) => (
+            {[
+              {
+                id: "free",
+                name: "Free",
+                description: "Basic access to AI models",
+                price: "$0",
+                features: [
+                  "5,000 tokens",
+                  "Access to all AI models",
+                  "No conversation history",
+                  "Basic support",
+                ],
+                highlight: false,
+                buttonText: "Get Started",
+              },
+              {
+                id: "premium1",
+                name: "Premium 1",
+                description: "Enhanced access with history",
+                price: "$8.99",
+                features: [
+                  "200,000 tokens",
+                  "Access to all AI models",
+                  "Full conversation history",
+                  "Priority support",
+                ],
+                highlight: true,
+                buttonText: "Upgrade Now",
+              },
+              {
+                id: "premium2",
+                name: "Premium 2",
+                description: "Maximum tokens for power users",
+                price: "$14.99",
+                features: [
+                  "500,000 tokens",
+                  "Access to all AI models",
+                  "Full conversation history",
+                  "Premium support",
+                ],
+                highlight: false,
+                buttonText: "Upgrade Now",
+              },
+            ].map((item: any) => (
               <PricingCard key={item.id} item={item} user={user} />
             ))}
           </div>

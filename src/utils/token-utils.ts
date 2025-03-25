@@ -1,14 +1,28 @@
 import { createClient } from "../../supabase/client";
 
 /**
- * Estimates the number of tokens in a text string
- * This is a simple estimation - in production, you would use a proper tokenizer
+ * Estimates the number of tokens in a text string based on the model
+ * Uses more accurate estimation based on model-specific tokenization patterns
  * @param text The text to estimate tokens for
+ * @param model The AI model being used
  * @returns Estimated token count
  */
-export function estimateTokens(text: string): number {
-  // Rough estimate: 1 token ≈ 4 characters
-  return Math.ceil(text.length / 4);
+export function estimateTokens(text: string, model: string = "openai"): number {
+  // Different models have different tokenization patterns
+  // These are still approximations but more accurate than a single ratio for all models
+  const tokenRatios: Record<string, number> = {
+    openai: 4, // GPT models: ~4 chars per token
+    claude: 3.8, // Claude models: ~3.8 chars per token
+    gemini: 4.2, // Gemini models: ~4.2 chars per token
+    grok: 4, // Grok models: ~4 chars per token (assumption)
+    deepseek: 3.6, // Deepseek models: ~3.6 chars per token (assumption)
+  };
+
+  // Get the base model name (before the first dash or space)
+  const baseModel = model.split(/[-\s]/)[0].toLowerCase();
+  const ratio = tokenRatios[baseModel] || 4; // Default to 4 if model not recognized
+
+  return Math.ceil(text.length / ratio);
 }
 
 /**
